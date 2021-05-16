@@ -1,7 +1,7 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {showAlert, createComment} from "../redux/actions";
-import Alert from './Alert'
+import { connect } from 'react-redux'
+import { showAlert, postComment } from "../../redux/actions";
+import Alert from '../app/Alert'
 
 class CommentForm extends React.Component {
     constructor(props) {
@@ -21,10 +21,14 @@ class CommentForm extends React.Component {
         }
 
         const newComment = {
-            text, id: Date.now().toString()
+            content: text,
+            creationDatetime: Date.now().toString(),
+            authorName: 'Maria Shepelevich',
+            likesCount: 0,
+            liked: false
         }
 
-        this.props.createComment(newComment)
+        this.props.postComment(newComment)
         this.setState({text: ''})
     }
 
@@ -40,18 +44,19 @@ class CommentForm extends React.Component {
     render() {
         return (
             <form onSubmit={this.submitHandler}>
+                <div className='row col-6 '>
+                    {this.props.alert && <Alert text={this.props.alert} className='row col-6' />}
 
-                {this.props.alert && <Alert text={this.props.alert}/>}
-
-                <div className="mb-3">
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="title"
-                        value={this.state.text}
-                        name='title'
-                        onChange={this.changeInputHandler}
-                    />
+                    <div className='mb-3'>
+                        <input
+                            type='text'
+                            className='form-control'
+                            id='text'
+                            value={this.state.text}
+                            name='text'
+                            onChange={this.changeInputHandler}
+                        />
+                    </div>
                 </div>
                 <button className='btn btn-success' type='submit'>Post</button>
             </form>)
@@ -59,7 +64,7 @@ class CommentForm extends React.Component {
 }
 
 const mapDispatchToProps = {
-    createComment, showAlert
+    postComment, showAlert
 }
 
 const mapStateToProps = state => ({

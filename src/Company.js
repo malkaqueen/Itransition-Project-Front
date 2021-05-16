@@ -1,33 +1,33 @@
-import React, {useEffect} from "react"
-import NavBar from "./componenets/NavBar"
-import CompanyHeader from "./componenets/CompanyHeader"
-import Description from "./componenets/Description"
-import {useDispatch, useSelector} from 'react-redux'
-import {fetchCompany} from './redux/actions'
-import Bonuses from './componenets/Bonuses'
-import Video from './componenets/Video'
-import Comments from './componenets/Comments'
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchCompany } from './redux/actions'
+import CompanyHeader from "./componenets/company/CompanyHeader"
+import Description from "./componenets/company/Description"
+import NavBar from "./componenets/app/NavBar"
+import Bonuses from './componenets/company/Bonuses'
+import Video from './componenets/company/Video'
+import Comments from './componenets/company/Comments'
 
-export default function Company({ companyId }) {
+export default function Company({ companyId, userId }) {
     const dispatch = useDispatch()
     const company = useSelector(state => state.company.company)
     useEffect(() => {
-            dispatch(fetchCompany(companyId))
+        dispatch(fetchCompany(companyId))
     }, [companyId, dispatch]);
 
     return (<div className='container-fluid'>
-        <NavBar/>
-        <CompanyHeader company={company}/>
+        <NavBar />
+        <CompanyHeader company={company} />
         <div className='row'>
             <div className='col-6'>
-                <Description description={company.description}/>
+                <Description description={company.description} />
             </div>
             <div className='col-6'>
-                <Video/>
+                <Video />
             </div>
         </div>
-        <Bonuses/>
-        <Comments/>
+        <Bonuses />
+        <Comments companyId={companyId} userId={userId} />
     </div>)
 }
 

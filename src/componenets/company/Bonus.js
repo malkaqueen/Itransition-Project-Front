@@ -1,7 +1,7 @@
 import React from 'react'
-import '../styles/card-style.css'
+import '../../styles/card-style.css'
 
-export default () => {
+export default function Bonus () {
     return (
         <div className='card bonus text-center'>
             <div className='overflow'>

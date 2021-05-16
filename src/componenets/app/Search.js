@@ -1,11 +1,11 @@
 import React from "react";
-import styles from '../Search.css'
+import styles from '../../styles/Search.css'
 
-export default () => {
+export default function Search () {
     <style>{styles}</style>
     return (
-        <form>
-            <input type="search"/>
+        <form className='search-form'>
+            <input type="search" className='search-input'/>
             <i className="fa fa-search">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                      className="bi bi-search" viewBox="0 0 24 27">

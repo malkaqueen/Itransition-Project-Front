@@ -1,8 +1,7 @@
-import {FETCH_COMPANY, CREATE_COMMENT} from "./types";
+import {FETCH_COMPANY} from "./types";
 
 const initialState = {
-    company: {},
-    comments: []
+    company: {}
 }
 
 export const companyReducer = (state = initialState, action) => {
@@ -10,8 +9,7 @@ export const companyReducer = (state = initialState, action) => {
     {
         case FETCH_COMPANY:
             return {...state, company: action.payload}
-        case CREATE_COMMENT:
-            return {...state, comments: state.posts.concat([action.payload])}
-        default: return state
+        default:
+            return state
     }
 }
