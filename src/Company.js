@@ -40,7 +40,7 @@ export default function Company() {
                         <Video video={company.companyVideo.videoUrl} />
                     </div>
                 </div>
-                {/* <Bonuses /> */}
+                <Bonuses companyId={companyId} />
                 <Comments companyId={companyId} userId={userId} />
             </div>
             :

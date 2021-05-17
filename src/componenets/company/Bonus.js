@@ -1,21 +1,23 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import '../../styles/card-style.css'
+import { buyBonus } from '../../redux/actions'
 
-export default function Bonus () {
+export default function Bonus({ bonus }) {
+    const dispatch = useDispatch()
+    const userId = useSelector(state => state.user.id)
+
     return (
         <div className='card bonus text-center'>
-            <div className='overflow'>
-                <img
-                    src='https://kpopchart.net/wp-content/uploads/2021/03/Chanyeol-The-Box-e1616555084675.jpg'
-                    alt=''
-                    className='card-img-top'/>
-            </div>
             <div className='card-body text-dark'>
-                <h4 className='card-title'>Card Title</h4>
+                <h4 className='card-title'>{bonus.title}</h4>
                 <p className='card-text text-secondary'>
-                    lorem201
+                    {bonus.description}
                 </p>
-                <a href='#' className='btn btn-outline-success'>Buy</a>
+                <button
+                    className='btn btn-outline-success'
+                    onClick={() => dispatch(buyBonus(userId, bonus.id))}
+                >Buy for {bonus.bonusSum}$</button>
             </div>
         </div>
     )

@@ -7,6 +7,9 @@ import { userSettingsReducer } from "./userSettingsReducer";
 import { registerReducer } from "./registerReducer";
 import { loginReducer } from "./loginReducer";
 import { mainPageReducer } from "./mainPageReducer";
+import { adminReducer } from "./adminReducer";
+import { myCompaniesReducer } from "./myCompaniesReducer";
+import { allCompaniesReducer } from "./allCompaniesReducer";
 
 export const rootReducer = combineReducers({
     company: companyReducer,
@@ -16,5 +19,8 @@ export const rootReducer = combineReducers({
     user: userSettingsReducer,
     registration: registerReducer,
     login: loginReducer,
-    main: mainPageReducer
+    main: mainPageReducer,
+    admin: adminReducer,
+    my: myCompaniesReducer,
+    all: allCompaniesReducer
 })

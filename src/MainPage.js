@@ -1,12 +1,12 @@
 import React from 'react'
 import NavBar from './componenets/app/NavBar'
-import BestCompanies from './mainPage/BestCompanies'
-import RecentCompanies from './mainPage/RecentCompanies'
-import TagsCloud from './mainPage/TagsCloud'
+import BestCompanies from './componenets/mainPage/BestCompanies'
+import RecentCompanies from './componenets/mainPage/RecentCompanies'
+import TagsCloud from './componenets/mainPage/TagsCloud'
 
 export default function MainPage() {
     return (
-        <div className='container-fluid'>
+        <div>
             <NavBar />
             <TagsCloud />
             <BestCompanies />

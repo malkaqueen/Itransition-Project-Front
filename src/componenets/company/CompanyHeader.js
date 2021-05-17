@@ -32,16 +32,6 @@ export default function CompanyHeader({ company }) {
                     <Tags tags={company.companyTags}/>
                 </div>
             </div>
-            {/* <div className='row col-lg-4 col-sm-2'>
-                <img src={company.companyPhoto[0].photoUrl}
-                    alt=''
-                    className='img-fluid img-responsive'
-                    resizeMode={'cover'}
-                    style={{
-                        maxWidth: '300px'
-                    }}
-                />
-            </div> */}
         </div>
     </div>)
 }

@@ -6,24 +6,24 @@ import {fetchBonuses} from '../../redux/actions'
 export default function Bonuses({companyId}) {
     const dispatch = useDispatch()
     const bonuses = useSelector(state=>state.company.bonuses)
+
     useEffect(() => {
         dispatch(fetchBonuses(companyId))
     }, [companyId, dispatch])
 
     return (
         <div>
-            <h4 className='ms-5 mb-2 text-center'>Project Bonuses</h4>
+            <h4 className='ml-5 mr-5 mb-2 text-center'>Project Bonuses</h4>
             <div className='container-fluid  d-flex justify-content-center m-5'>
                 <div className='row'>
-                    <div className='col-4'>
-                        <Bonus />
-                    </div>
-                    <div className='col-4'>
-                        <Bonus />
-                    </div>
-                    <div className='col-4'>
-                        <Bonus />
-                    </div>
+                    {bonuses.map(bonus=>
+                        <Bonus
+                        key = {bonus.id}
+                        bonus = {bonus}
+                        className='col-3'
+                        />)
+
+                    }
                 </div>
             </div>
         </div>

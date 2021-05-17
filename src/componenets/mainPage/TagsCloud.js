@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTagTruncator } from 'react-use-tag-truncator'
-import { fetchTags } from '../redux/actions'
+import { fetchTags } from '../../redux/actions'
 
 export default function TagsCloud() {
     const dispatch = useDispatch()
     const tags = useSelector(state => state.main.tags)
     useEffect(() => {
         dispatch(fetchTags())
-    }, dispatch)
+    }, [dispatch])
 
     const [
         containerRef,

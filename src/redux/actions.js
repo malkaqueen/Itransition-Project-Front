@@ -1,14 +1,14 @@
 import {
-    FETCH_COMPANY, FETCH_COMMENTS,
+    FETCH_COMPANY, FETCH_COMMENTS, FETCH_MY_COMPS,
     SHOW_ALERT, HIDE_ALERT, TEST_PROJECT, LIKE,
     SET_DATE, FETCH_CATEGORIES, SET_CATEGORY, ADD_TAG, ADD_PHOTO,
-    ADD_USER_PHOTO, SET_USER_ID, SET_ROLE,
+    ADD_USER_PHOTO, SET_USER_ID, SET_ROLE, FETCH_USERS,
     SET_LANGUAGE, SET_THEME, SET_USER_NAME, LOGIN_VALIDATE, FETCH_TAGS, FETCH_BEST_COMPS,
-    FETCH_REC_COMPS,
-    FETCH_AUTHOR
+    FETCH_REC_COMPS, FETCH_AUTHOR, FETCH_ALL_COMPS, FETCH_BONUSES
 } from "./types";
 
 export function setUserId(userId) {
+    localStorage.setItem('userId', (userId) ? userId.toString() : null)
     return {
         type: SET_USER_ID,
         payload: userId
@@ -16,6 +16,7 @@ export function setUserId(userId) {
 }
 
 export function setRole(role) {
+    localStorage.setItem('role', (role) ? role.toString() : null)
     return {
         type: SET_ROLE,
         payload: role
@@ -23,6 +24,7 @@ export function setRole(role) {
 }
 
 export function setLanguage(lang) {
+    localStorage.setItem('language', lang)
     return {
         type: SET_LANGUAGE,
         payload: lang
@@ -30,6 +32,7 @@ export function setLanguage(lang) {
 }
 
 export function setTheme(theme) {
+    localStorage.setItem('theme', theme)
     return {
         type: SET_THEME,
         payload: theme
@@ -37,6 +40,7 @@ export function setTheme(theme) {
 }
 
 export function setUserName(name) {
+    localStorage.setItem('name', (name) ? name.toString() : null)
     return {
         type: SET_USER_NAME,
         payload: name
@@ -460,6 +464,27 @@ export function fetchRecentComps() {
     }
 }
 
+export function fetchMyComps(userId) {
+    return async dispatch => {
+        try {
+            const response = await fetch('http://localhost:8090/company/getAllByUserId',
+                {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    body: userId
+                })
+            const json = await response.json()
+            dispatch({ type: FETCH_MY_COMPS, payload: json })
+        }
+        catch (e) {
+            console.log('Couldnt fetch user\'s companies');
+        }
+    }
+}
+
 export function fetchAuthor(userId) {
     return async dispatch => {
         try {
@@ -484,5 +509,87 @@ export function fetchAuthor(userId) {
 }
 
 export function fetchBonuses(companyId) {
+    return async dispatch => {
+        try {
+            console.log('companyId ', companyId)
+            const response = await fetch('http://localhost:8090/company/bonusOffer/getByCompanyId',
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    body: companyId
+                }
+            )
+            const json = await response.json()
 
+            dispatch({ type: FETCH_BONUSES, payload: json })
+        }
+        catch (e) {
+            console.log('couldnt fetch bonuses')
+        }
+    }
 }
+
+export function fetchUsers() {
+    return async dispatch => {
+        try {
+            const response = await fetch('http://localhost:8090/user/getAll')
+            const json = await response.json()
+
+            dispatch({ type: FETCH_USERS, payload: json })
+        }
+        catch (e) {
+            console.log('Couldn\'t fetch users')
+        }
+    }
+}
+
+export function changeRole(userId, role) {
+    const changeRoleInfo = {
+        userId,
+        role
+    }
+    return async dispatch => {
+        try {
+            await fetch('http://localhost:8090/user/changeRole',
+                {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    body: JSON.stringify(changeRoleInfo)
+                }
+            )
+            dispatch(fetchUsers())
+        }
+        catch (e) {
+            console.log('Couldn\'t change user role');
+        }
+    }
+}
+
+export function fullTextSearch(searchRequest){
+    return async dispatch=>{
+        try{
+            const response =  await fetch('http://localhost:8090/search',
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                },
+                body: searchRequest
+            }
+        )
+        
+        const companies = await response.json()
+        dispatch({type: FETCH_ALL_COMPS, payload: companies})   
+        }
+        catch(e){
+            console.log('Couldn\'t process full text search')
+        }
+    }
+} 

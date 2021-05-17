@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchBestComps } from '../redux/actions'
-import CompanyCard from './CompanyCard'
+import { fetchBestComps } from '../../redux/actions'
+import CompanyCard from '../mainPage/CompanyCard'
 
 export default function BestCompanies() {
     const dispatch = useDispatch()
     const bestComps = useSelector(state => state.main.bestCompanies)
     useEffect(() => {
         dispatch(fetchBestComps())
-    }, dispatch)
+    }, [dispatch])
 
     return (
         <div className='container'>

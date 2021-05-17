@@ -9,8 +9,6 @@ export default function Comments({ companyId, userId }) {
     const comments = useSelector(state => state.comments.comments)
     const userRole = useSelector(state=>state.user.role)
 
-    console.log(userRole)
-
     useEffect(() => {
         dispatch(fetchComments(companyId, userId))
     }, [companyId, dispatch, userId])

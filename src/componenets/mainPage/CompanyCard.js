@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import '../styles/card-style.css'
+import '../../styles/card-style.css'
 
 export default function CompanyCard({ company }) {
     const shortDescription = company.description.substring(0, 100) + "..."

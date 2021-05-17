@@ -1,11 +1,11 @@
 import { SET_USER_ID, SET_ROLE, SET_LANGUAGE, SET_THEME, SET_USER_NAME } from "./types";
 
 const initialState = {
-    userId: null,
-    role: null,
-    theme: 'LIGHT',
-    language: 'EN',
-    name: ''
+    userId: (localStorage.getItem('userId')) ? Number(localStorage.getItem('userId')) : null,
+    role: (localStorage.getItem('role')) ? localStorage.getItem('role') : null,
+    theme: (localStorage.getItem('theme')) ? localStorage.getItem('theme') : 'LIGHT',
+    language: (localStorage.getItem('language')) ? localStorage.getItem('language') : 'EN',
+    name: (localStorage.getItem('name')) ? localStorage.getItem('name') : null,
 }
 
 export const userSettingsReducer = (state = initialState, action) => {
