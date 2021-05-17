@@ -17,18 +17,10 @@ class CommentForm extends React.Component {
         const {text} = this.state
 
         if (!text.trim()) {
-            return this.props.showAlert('Post title cannot be empty')
+            return this.props.showAlert('Comment cannot be empty')
         }
 
-        const newComment = {
-            content: text,
-            creationDatetime: Date.now().toString(),
-            authorName: 'Maria Shepelevich',
-            likesCount: 0,
-            liked: false
-        }
-
-        this.props.postComment(newComment)
+        this.props.postComment(text, this.props.companyId, this.props.userId)
         this.setState({text: ''})
     }
 
@@ -68,7 +60,8 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = state => ({
-    alert: state.app.alert
+    alert: state.app.alert,
+    userId: state.user.userId
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentForm)

@@ -1,35 +1,47 @@
-import React from "react";
-import StarRating from "./StarRating";
-import CompanyNavBar from "./CompanyNavBar";
-
-//можно импортировать дарк стайлз и лайт стайлз, проверять и применять эффекты с одним и тем же названием
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import StarRating from './StarRating'
+import CompanyNavBar from './CompanyNavBar'
+import { fetchAuthor } from '../../redux/actions'
+import Tags from './Tags'
 
 export default function CompanyHeader({ company }) {
+    const dispatch = useDispatch()
+    const author = useSelector(state => state.company.author)
+    const creationDate = new Date(company.company.creationDate).toLocaleDateString()
+
+    useEffect(() => {
+        dispatch(fetchAuthor(company.company.userId))
+    }, [company.company.userId, dispatch])
+
     return (<div>
         <CompanyNavBar />
-        <div className='row p-5'>
-            <div className='row col-lg-4 col-sm-2'>
+        <div className='row ms-5 mt-5'>
+            <div className='row col-lg-6 col-sm-2'>
                 <div className='row'>
-                    <div className='col-lg-6 col-sm-3'>
-                        <h1>{company.name}</h1>
-                    </div>
-                    <div className='col-lg-6 col-sm-3'>
-                        <StarRating rating={company.rating} />
+                    <div className='col-6'>
+                        <h1>{company.company.name}</h1>
                     </div>
                     <div className='row'>
-                        <div className='m-1'>{`By AuthorName AuthorSurname on ${company.creation_date}`}</div>
-                        <div className='m-1'>{company.category}</div>
+                        <StarRating rating={company.averageRating} />
                     </div>
+                    <div className='row'>
+                        <div className='m-1'>{`By ${author} on ${creationDate}`}</div>
+                        <div className='m-1'>{company.categoryName}</div>
+                    </div>
+                    <Tags tags={company.companyTags}/>
                 </div>
             </div>
-            <div className='row col-lg-4 col-sm-2'>
-                <img src={company.photo_url}
-                    alt = ''
-                    className="img-fluid"
+            {/* <div className='row col-lg-4 col-sm-2'>
+                <img src={company.companyPhoto[0].photoUrl}
+                    alt=''
+                    className='img-fluid img-responsive'
                     resizeMode={'cover'}
-                    style={{ maxWidth: 400 }}
+                    style={{
+                        maxWidth: '300px'
+                    }}
                 />
-            </div>
+            </div> */}
         </div>
     </div>)
 }

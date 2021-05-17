@@ -7,6 +7,7 @@ import {
 import MainPage from './MainPage'
 import MyCompanies from './MyCompanies'
 import CreateCompany from './CreateCompany'
+import Company from './Company'
 import LogIn from './LogIn'
 import Register from './Register'
 import RegistrationProcess from './componenets/register/RegistrationProcess'
@@ -24,10 +25,11 @@ class App extends Component {
                     <Route history={history} exact path='/log_in' component={LogIn} />
                     <Route history={history} exact path='/register' component={Register} />
                     <Route history={history} exact path='/registration_process' component={RegistrationProcess} />
+                    <Route history={history} exact path='/company/:companyId' render={(props) => <Company {...props} />} />
                     <Redirect from='/' to='/home' />
                 </Switch>
             </div>
-        );
+        )
     }
 }
 

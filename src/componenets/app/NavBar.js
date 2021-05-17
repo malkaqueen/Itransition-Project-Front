@@ -1,10 +1,13 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Search from './Search'
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
+import { logout } from '../../redux/actions'
 
 export default function NavBar() {
+    const dispatch = useDispatch()
     const userId = useSelector(state => state.user.userId)
+    const userName = useSelector(state=> state.user.name)
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-4">
@@ -36,8 +39,10 @@ export default function NavBar() {
                     </li>
                 </ul>
             </div>
+            <div className='col-lg-2 col-md-2 col-sm-5 desc justify-content-right'>
+                {(userId) && <h5 style={{color: 'white'}}>{userName}</h5>}
+            </div>
             <div className='col-lg-2 col-md-3 col-sm-5 desc'>
-
                 {(!userId)
                     ?
                     <div>
@@ -50,7 +55,12 @@ export default function NavBar() {
                     </div>
                     :
                     <div>
-                        <button className='btn btn-outline-info m-2'>Log Out</button>
+                        <Link to='/'>
+                            <button
+                                className='btn btn-outline-info m-2'
+                                onClick={() => dispatch(logout())}
+                            >Log Out</button>
+                        </Link>
                     </div>
 
                 }

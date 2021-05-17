@@ -1,20 +1,71 @@
 import {
-    FETCH_COMPANY, FETCH_COMMENTS, POST_COMMENT,
+    FETCH_COMPANY, FETCH_COMMENTS,
     SHOW_ALERT, HIDE_ALERT, TEST_PROJECT, LIKE,
     SET_DATE, FETCH_CATEGORIES, SET_CATEGORY, ADD_TAG, ADD_PHOTO,
-    ADD_USER_PHOTO
+    ADD_USER_PHOTO, SET_USER_ID, SET_ROLE,
+    SET_LANGUAGE, SET_THEME, SET_USER_NAME, LOGIN_VALIDATE, FETCH_TAGS, FETCH_BEST_COMPS,
+    FETCH_REC_COMPS,
+    FETCH_AUTHOR
 } from "./types";
 
-export function register(firstName, lastName, photo, email, password) {
+export function setUserId(userId) {
+    return {
+        type: SET_USER_ID,
+        payload: userId
+    }
+}
+
+export function setRole(role) {
+    return {
+        type: SET_ROLE,
+        payload: role
+    }
+}
+
+export function setLanguage(lang) {
+    return {
+        type: SET_LANGUAGE,
+        payload: lang
+    }
+}
+
+export function setTheme(theme) {
+    return {
+        type: SET_THEME,
+        payload: theme
+    }
+}
+
+export function setUserName(name) {
+    return {
+        type: SET_USER_NAME,
+        payload: name
+    }
+}
+
+export function logout() {
+    return async dispatch => {
+        dispatch(setUserId(null))
+        dispatch(setRole(null))
+        dispatch(setUserName(''))
+    }
+}
+
+export function loginValidate(isValid) {
+    return {
+        type: LOGIN_VALIDATE,
+        payload: isValid
+    }
+}
+
+export function login(email, password) {
     const userInfo = {
-        firstName,
-        lastName,
         email,
         password
     }
     return async dispatch => {
         try {
-            const response = await fetch('',
+            const response = await fetch('http://localhost:8090/user/login',
                 {
                     method: 'POST',
                     headers: {
@@ -25,21 +76,15 @@ export function register(firstName, lastName, photo, email, password) {
                 }
             )
             const json = await response.json()
-            await fetch(``,
+            const userNameResp = await fetch('http://localhost:8090/user/getFullName',
                 {
                     method: 'POST',
-                    body: photo
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    body: json.userId
                 }
-            )
-            const userNameResp = await fetch('',
-            {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "*"
-                },
-                body: json.userId
-            }
             )
             const userName = await userNameResp.text()
 
@@ -49,6 +94,58 @@ export function register(firstName, lastName, photo, email, password) {
             dispatch(setLanguage(json.language))
             dispatch(setUserName(userName))
 
+            dispatch(loginValidate(true))
+        }
+        catch (e) {
+            console.log('couldnt process login')
+            dispatch(loginValidate(false))
+        }
+    }
+}
+
+export function register(firstName, lastName, photo, email, password) {
+    const userInfo = {
+        firstName,
+        lastName,
+        email,
+        password
+    }
+    return async dispatch => {
+        try {
+            const response = await fetch('http://localhost:8090/user/register',
+                {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    body: JSON.stringify(userInfo)
+                }
+            )
+            const json = await response.json()
+            await fetch(`http://localhost:8090/user/photo/save/${json.userId}`,
+                {
+                    method: 'POST',
+                    body: photo
+                }
+            )
+            const userNameResp = await fetch('http://localhost:8090/user/getFullName',
+                {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    body: json.userId
+                }
+            )
+            const userName = await userNameResp.text()
+
+            dispatch(setUserId(json.userId))
+            dispatch(setRole(json.role))
+            dispatch(setTheme(json.theme))
+            dispatch(setLanguage(json.language))
+            dispatch(setUserName(userName))
         }
         catch (e) {
             console.log('couldnt process registration')
@@ -57,66 +154,56 @@ export function register(firstName, lastName, photo, email, password) {
 
 }
 
-export function fetchCompany(id) {
+export function fetchCompany(companyId, userId) {
+    const companyInfo = {
+        userId,
+        companyId
+    }
+
     return async dispatch => {
         try {
-            //dispatch(showLoader())
-            //const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5')
-            //const json = await response.json()
-            const json = {
-                "name": "The Box",
-                "rating": "4.8",
-                "photo_url": "https://kpopchart.net/wp-content/uploads/2021/03/Chanyeol-The-Box-e1616555084675.jpg",
-                "category": "K-POP",
-                "creation_date": "28.11.2020",
-                "expiration_date": "14.11.2021",
-                "target_sum": "100$",
-                "current_sum": "23$",
-                "description": `sfdgdfgd
-                dfgdgfdgfdfgdgdfgdgfdfgdfgdfgdfgdfgdfgfdddddddddddddddddggdfgdfgdfggggggggggggggggggggggd
-                dfgdkjgfhjfdfghjjhxgcgfvbhjniuhygt frrxdgvhuygtrfcgvhuygtfcgvhbuygvfhbuygfvhbuygvfhyvyvfffcv
-                sdfgdfgjfkmujnbgsrdthfjt kiuyjhtgrdhyyuloiyujtgrhjyuoliyujthrghtjykulikjhgfhjykujmhgbf`,
-                "user_id": 3
-            }
+            const response = await fetch('http://localhost:8090/company/getCompanyInfo',
+                {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    body: JSON.stringify(companyInfo)
+                }
+            )
+            const json = await response.json()
             dispatch({ type: FETCH_COMPANY, payload: json })
 
         } catch (e) {
-            //dispatch(showAlert('Something went wrong'))
-            //dispatch(hideLoader())
-            console.log("Couldn't fetch company")
+            console.log('Couldn\'t fetch company')
         }
     }
 }
 
-export function postComment(comment) {
-    // return async dispatch => {
-    //     try {
-    //         if (!text.trim()) {
-    //             return showAlert('Post title cannot be empty')
-    //         }
-    //         const newComment = {
-    //             userId,
-    //             companyId,
-    //             text,
-    //             datetime: Date.now().toString()
-    //         }
+export function postComment(text, companyId, userId) {
+    const newComment = {
+        userId,
+        companyId,
+        text
+    }
+    return async dispatch => {
+        try {
+            await fetch('http://localhost:8090/comment/set',
+                {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    body: JSON.stringify(newComment)
+                })
+            dispatch(fetchComments(companyId, userId))
+        }
+        catch (e) {
+            console.log("Couldn't post comment")
+        }
 
-    //         dispatch({ type: POST_COMMENT })
-    //         fetch('http://localhost:8090/company/test',
-    //             {
-    //                 method: "POST",
-    //                 body: JSON.stringify(newComment)
-    //             })
-    //         fetchComments(companyId, userId)
-    //     }
-    //     catch (e) {
-    //         console.log("Couldn't post comment")
-    //     }
-
-    // }
-    return {
-        type: POST_COMMENT,
-        payload: comment
     }
 }
 
@@ -153,8 +240,8 @@ export function testProject() {
 
 export function fetchComments(companyId, userId) {
     const ids = {
-        "companyId": 1,
-        "userId": 1
+        companyId,
+        userId
     }
     return async dispatch => {
         try {
@@ -332,4 +419,70 @@ export function createCompany(
             console.log('Couldnt create company')
         }
     }
+}
+
+export function fetchTags() {
+    return async dispatch => {
+        try {
+            const response = await fetch('http://localhost:8090/tags/get')
+            const json = await response.json()
+            dispatch({ type: FETCH_TAGS, payload: json })
+        }
+        catch (e) {
+            console.log('Couldnt fetch tags');
+        }
+    }
+}
+
+export function fetchBestComps() {
+    return async dispatch => {
+        try {
+            const response = await fetch('http://localhost:8090/company/getByRating')
+            const json = await response.json()
+            dispatch({ type: FETCH_BEST_COMPS, payload: json })
+        }
+        catch (e) {
+            console.log('Couldnt fetch best companies');
+        }
+    }
+}
+
+export function fetchRecentComps() {
+    return async dispatch => {
+        try {
+            const response = await fetch('http://localhost:8090/company/getByTime')
+            const json = await response.json()
+            dispatch({ type: FETCH_REC_COMPS, payload: json })
+        }
+        catch (e) {
+            console.log('Couldnt fetch best companies');
+        }
+    }
+}
+
+export function fetchAuthor(userId) {
+    return async dispatch => {
+        try {
+            const userNameResp = await fetch('http://localhost:8090/user/getFullName',
+                {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    body: userId
+                }
+            )
+            const userName = await userNameResp.text()
+
+            dispatch({ type: FETCH_AUTHOR, payload: userName })
+        }
+        catch (e) {
+            console.log('Couldn\'t fetch author name');
+        }
+    }
+}
+
+export function fetchBonuses(companyId) {
+
 }

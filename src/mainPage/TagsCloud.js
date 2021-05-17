@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useTagTruncator } from 'react-use-tag-truncator'
+import { fetchTags } from '../redux/actions'
 
-export default function Tags({ tags }) {
+export default function TagsCloud() {
+    const dispatch = useDispatch()
+    const tags = useSelector(state => state.main.tags)
+    useEffect(() => {
+        dispatch(fetchTags())
+    }, dispatch)
 
     const [
         containerRef,
@@ -11,11 +18,13 @@ export default function Tags({ tags }) {
     ] = useTagTruncator()
 
     return (
-        <div className='row text-dark'>
+        <div
+            className='container m-5 p-2 bg-gradient-info text-dark'
+        >
             <ul
                 ref={containerRef}
                 style={{
-                    maxHeight: isExtended ? 'none' : '40px',
+                    maxHeight: isExtended ? 'none' : '80px',
                     width: '100%',
                     display: 'flex',
                     flexWrap: 'wrap',
@@ -24,7 +33,7 @@ export default function Tags({ tags }) {
                 {tags.map(tag => (
                     <p
                         key={tag.id}
-                        className='ms-2'
+                        className='m-2'
                     ># {tag.tag}</p>
                 ))}
                 <button

@@ -8,7 +8,6 @@ import { rootReducer } from "./redux/rootReducer";
 import { BrowserRouter } from 'react-router-dom';
 import App from "./App";
 
-
 const store = createStore(rootReducer, compose(
     applyMiddleware(thunk),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())

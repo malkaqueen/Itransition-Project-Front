@@ -9,7 +9,7 @@ import Alert from './componenets/app/Alert'
 export default function Register({ value = 0, onChange }) {
     const dispatch = useDispatch()
     const alert = useSelector(state => state.app.alert)
-    const photo = useSelector(state => state.register.photo)
+    const photo = useSelector(state => state.registration.photo)
 
     const [logged, setLogged] = useState(false)
 
@@ -83,7 +83,7 @@ export default function Register({ value = 0, onChange }) {
     }
 
     if (logged)
-        return <Redirect to='/registration_process'/>
+        return <Redirect to='/'/>
 
     return (
         <div>

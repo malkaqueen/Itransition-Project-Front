@@ -1,8 +1,15 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import NavBar from './componenets/app/NavBar'
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom'
+import { showAlert, login, loginValidate } from './redux/actions'
+import Alert from './componenets/app/Alert'
 
 export default function LogIn({ value = 0, onChange }) {
+    const dispatch = useDispatch()
+    const isValidated = useSelector(state => state.login.isValid)
+    const alert = useSelector(state => state.app.alert)
+
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
 
@@ -19,6 +26,14 @@ export default function LogIn({ value = 0, onChange }) {
             onChange(event.target.value);
         }
     }
+
+    if (isValidated === false) {
+        dispatch(showAlert('Email or Password is invalid'))
+        dispatch(loginValidate(null))
+    }
+
+    if (isValidated)
+        return <Redirect to='/' />
 
     return (
         <div>
@@ -50,7 +65,15 @@ export default function LogIn({ value = 0, onChange }) {
                         />
                     </div>
                 </form>
-                <button type='submit' className='btn btn-primary'>Log In</button>
+                {alert && <Alert text={alert} />}
+                <button
+                    type='submit'
+                    className='btn btn-primary'
+                    onClick={() => {
+                        dispatch(login(email, pass))
+                    }
+                    }
+                >Log In</button>
                 <small id='emailHelp' className='form-text text-muted m-2'>New here?
                         <Link to='/register'>
                         Register

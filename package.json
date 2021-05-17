@@ -25,8 +25,10 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-star-rating-component": "^1.4.1",
+    "react-use-tag-truncator": "^1.1.0",
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
+    "resize-observer-polyfill": "^1.5.1",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

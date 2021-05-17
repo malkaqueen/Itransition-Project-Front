@@ -19,7 +19,7 @@ export default function RegisterImage () {
                 )
 
                 const formData = new FormData();
-                formData.append('companyPhoto', acceptedFiles[0], acceptedFiles[0].name)
+                formData.append('userPhoto', acceptedFiles[0], acceptedFiles[0].name)
 
                 dispatch(addUserPhoto(formData))
             }
