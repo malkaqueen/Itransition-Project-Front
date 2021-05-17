@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { useTagTruncator } from 'react-use-tag-truncator'
-import { fetchTags } from '../../redux/actions'
+import { fetchTags, getCompaniesByTag } from '../../redux/actions'
 
 export default function TagsCloud() {
     const dispatch = useDispatch()
     const tags = useSelector(state => state.main.tags)
+
+    const history = useHistory()
+
     useEffect(() => {
         dispatch(fetchTags())
     }, [dispatch])
@@ -34,6 +38,10 @@ export default function TagsCloud() {
                     <p
                         key={tag.id}
                         className='m-2'
+                        onClick={() => {
+                            dispatch(getCompaniesByTag(tag.id))
+                            history.push('/all_companies')
+                        }}
                     ># {tag.tag}</p>
                 ))}
                 <button

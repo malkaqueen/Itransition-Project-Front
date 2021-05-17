@@ -1,9 +1,23 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {deleteLike, setLike} from '../../redux/actions'
 
-export default function Likes({ likes, liked }) {
+export default function Likes({ likes, liked, commentId, companyId }) {
+    const dispatch = useDispatch()
+    const userId = useSelector(state => state.user.userId)
+
     return (
         <div>
-            <label className='btn'>
+            <label
+                className='btn'
+                onClick={() => {
+                    (liked)
+                        ?
+                        dispatch(deleteLike(userId, commentId, companyId))
+                        :
+                        dispatch(setLike(userId, commentId, companyId))
+                }}
+            >
                 {(liked)
                     ?
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">

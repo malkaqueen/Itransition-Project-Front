@@ -28,6 +28,7 @@ export default function CompanyHeader({ company }) {
                     <div className='row'>
                         <div className='m-1'>{`By ${author} on ${creationDate}`}</div>
                         <div className='m-1'>{company.categoryName}</div>
+                        <div className='m-1'>{company.company.currentSum}/{company.company.targetSum}</div>
                     </div>
                     <Tags tags={company.companyTags}/>
                 </div>

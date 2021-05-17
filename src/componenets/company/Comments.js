@@ -30,7 +30,7 @@ export default function Comments({ companyId, userId }) {
             }
             {(comments.length)
                 ?
-                comments.map(comment => <Comment comment={comment} key={comment.id} />)
+                comments.map(comment => <Comment comment={comment} key={comment.id} companyId = {companyId}/>)
                 :
                 <label>No comments yet</label>
             }

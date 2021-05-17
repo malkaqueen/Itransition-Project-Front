@@ -593,3 +593,101 @@ export function fullTextSearch(searchRequest){
         }
     }
 } 
+
+export function buyBonus(userId, bonusOfferId, companyId){
+    const bonusInfo = {
+        userId,
+        bonusOfferId
+    }
+    return async dispatch=>{
+        try{
+            await fetch('http://localhost:8090/user/bonus/set',
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                },
+                body: JSON.stringify(bonusInfo)
+            }
+        )
+        dispatch(fetchCompany(companyId, userId))
+        }
+        catch(e){
+            console.log('Couldn\'t process bonus buying')
+        }
+    }
+}
+
+export function setLike(userId, commentId, companyId){
+    const likeInfo = {
+        userId,
+        commentId
+    }
+    return async dispatch=>{
+        try{
+            await fetch('http://localhost:8090/comment/like/set',
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                },
+                body: JSON.stringify(likeInfo)
+            }
+        )
+        dispatch(fetchComments(companyId, userId))
+        }
+        catch(e){
+            console.log('Couldn\'t process bonus buying')
+        }
+    }
+}
+
+export function deleteLike(userId, commentId, companyId) {
+    const likeInfo = {
+        userId,
+        commentId
+    }
+    return async dispatch=>{
+        try{
+            await fetch('http://localhost:8090/comment/like/delete',
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                },
+                body: JSON.stringify(likeInfo)
+            }
+        )
+        dispatch(fetchComments(companyId, userId))
+        }
+        catch(e){
+            console.log('Couldn\'t process bonus buying')
+        }
+    }
+}
+
+export function getCompaniesByTag(tagId){
+    return async dispatch=>{
+        try{
+            const response =  await fetch('http://localhost:8090/company/getByTagId',
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                },
+                body: tagId
+            }
+        )
+        
+        const companies = await response.json()
+        dispatch({type: FETCH_ALL_COMPS, payload: companies})   
+        }
+        catch(e){
+            console.log('Couldn\'t get companies by tag')
+        }
+    }
+} 

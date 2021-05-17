@@ -19,10 +19,8 @@ export default function NavBar() {
         <nav className='navbar navbar-expand-lg navbar-dark bg-dark py-4'>
             <a href='/' className='navbar-brand col-lg-4 col-md-4 col-sm-6 pl-5 ml-3 desc'>
                 <h1>
-                    <img src='food.png' alt='' width='30' height='24'
+                    <img src='logo.png' alt='' width='250'
                         className='d-inline-block align-text-center' />
-                    Funduk
-
                 </h1>
             </a>
             <div className='collapse navbar-collapse col-lg-2 col-md-3 col-sm-5 desc justify-content-right' id='navbarSupportedContent'>

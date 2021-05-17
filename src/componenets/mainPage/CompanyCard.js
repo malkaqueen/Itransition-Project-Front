@@ -38,7 +38,6 @@ export default function CompanyCard({ company }) {
                 <small className='text-secondary'>
                     {shortDescription}
                 </small>
-                {/* <a href='#' className='btn btn-outline-success'>Buy</a> */}
             </div>
         </div>
         </Link>

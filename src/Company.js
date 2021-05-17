@@ -23,32 +23,33 @@ export default function Company() {
 
     console.log(company)
 
-    return (<div className='container-fluid'>
-        <NavBar />
+    return (
+        <div className='container-fluid'>
+            <NavBar />
 
-        { (company)
-            ?
-            <div>
-                <CompanyHeader company={company} />
-                <hr />
-                <div className='row'>
-                    <div className='col-6'>
-                        <Description description={company.company.description} />
+            { (company)
+                ?
+                <div>
+                    <CompanyHeader company={company} />
+                    <hr />
+                    <div className='row'>
+                        <div className='col-6'>
+                            <Description description={company.company.description} />
+                        </div>
+                        <div className='col-6'>
+                            <Photo photo={company.companyPhoto[0].photoUrl} />
+                            <Video video={company.companyVideo.videoUrl} />
+                        </div>
                     </div>
-                    <div className='col-6'>
-                        <Photo photo={company.companyPhoto[0].photoUrl} />
-                        <Video video={company.companyVideo.videoUrl} />
-                    </div>
+                    <Bonuses companyId={companyId} />
+                    <Comments companyId={companyId} userId={userId} />
                 </div>
-                <Bonuses companyId={companyId} />
-                <Comments companyId={companyId} userId={userId} />
+                :
+                <div>
+                    Loading...
             </div>
-            :
-            <div>
-                Loading...
-            </div>
-        }
+            }
 
 
-    </div>)
+        </div>)
 }

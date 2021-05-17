@@ -1,7 +1,7 @@
 import React from "react"
 import Likes from './Likes'
 
-export default function Comment ({comment}) {
+export default function Comment ({comment, companyId}) {
     const date = new Date(comment.creationDatetime).toLocaleString()
 
     return (
@@ -13,6 +13,8 @@ export default function Comment ({comment}) {
                     <Likes 
                     likes = {comment.likesCount} 
                     liked = {comment.liked}
+                    commentId = {comment.id}
+                    companyId = {companyId}
                     />
                 </div>
             </div>

@@ -5,7 +5,7 @@ import { buyBonus } from '../../redux/actions'
 
 export default function Bonus({ bonus }) {
     const dispatch = useDispatch()
-    const userId = useSelector(state => state.user.id)
+    const userId = useSelector(state => state.user.userId)
 
     return (
         <div className='card bonus text-center'>
@@ -16,7 +16,7 @@ export default function Bonus({ bonus }) {
                 </p>
                 <button
                     className='btn btn-outline-success'
-                    onClick={() => dispatch(buyBonus(userId, bonus.id))}
+                    onClick={() => dispatch(buyBonus(userId, bonus.id, bonus.companyId))}
                 >Buy for {bonus.bonusSum}$</button>
             </div>
         </div>
