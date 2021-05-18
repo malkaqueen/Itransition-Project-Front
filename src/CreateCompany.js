@@ -14,9 +14,11 @@ export default function CreateComapny({ value = 0, onChange }) {
     const category = useSelector(state => state.createCompany.categoryId)
     const tags = useSelector(state => state.createCompany.tags)
     const companyPhoto = useSelector(state=>state.createCompany.photo)
+    const userId = useSelector(state=>state.user.userId)
+
     useEffect(() => {
         dispatch(fetchCategories())
-    }, dispatch)
+    }, [dispatch])
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
@@ -135,7 +137,7 @@ export default function CreateComapny({ value = 0, onChange }) {
                 <button
                     className='btn btn-primary'
                     onClick={() => dispatch(createCompany(
-                        1, name, description,
+                        userId, name, description,
                         sum, date, category,
                         vidUrl, tags, companyPhoto))}
                 >

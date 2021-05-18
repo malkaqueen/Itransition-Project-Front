@@ -21,8 +21,6 @@ export default function Company() {
         console.log(companyId)
     }, [companyId, dispatch, userId]);
 
-    console.log(company)
-
     return (
         <div className='container-fluid'>
             <NavBar />
